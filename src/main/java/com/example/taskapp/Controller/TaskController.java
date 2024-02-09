@@ -56,4 +56,7 @@ public class TaskController {
     }
 
 
+    public boolean isAdmin() {
+        return userLogged.getRol().getIdrol()==2?true:false;
+    }
 }

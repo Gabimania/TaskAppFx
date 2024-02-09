@@ -58,7 +58,7 @@ public class User extends ModeloBase{
     public User login(String username, String password) {
         User user=new User();
         Connection conn=user.getConnection();
-        String sql="select iduser,username,rol.idrol,description from " +
+        String sql="select iduser,username,rol.idrol,desciption from " +
                 "user left join rol on user.idrol=rol.idrol " +
                 "where username=? and password=?";
         try {
@@ -71,7 +71,7 @@ public class User extends ModeloBase{
                 user.username=resultSet.getString("username");
                 Rol rol=new Rol();
                 rol.setIdrol(resultSet.getInt("idrol"));
-                rol.setDescription(resultSet.getString("description"));
+                rol.setDescription(resultSet.getString("desciption"));
                 user.rol=rol;
                 return user;
             }else {
