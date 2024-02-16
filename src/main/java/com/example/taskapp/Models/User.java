@@ -1,9 +1,8 @@
 package com.example.taskapp.Models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User extends ModeloBase{
     private int iduser;
@@ -37,6 +36,14 @@ public class User extends ModeloBase{
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -83,4 +90,30 @@ public class User extends ModeloBase{
 
 
     }
+
+    public List<User> getAll() {
+        List<User> userList = new ArrayList<>();
+        User user = new User();
+        Connection con = user.getConnection();
+        String consulta = "select u.idUser, u.username, r.idRol, r.desciption from user as u inner join  rol as r on u.idRol = r.Idrol;";
+        try {
+            Statement stm = con.createStatement();
+            ResultSet resultSet = stm.executeQuery(consulta);
+            while(resultSet.next()){
+                User user1 = new User();
+                user1.setIduser(resultSet.getInt("idUser"));
+                user1.setUsername(resultSet.getString("username"));
+                Rol rol1 = new Rol();
+                rol1.setIdrol(resultSet.getInt("r.idrol"));
+                rol1.setDescription(resultSet.getString("r.desciption"));
+                user1.setRol(rol1);
+                userList.add(user1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+
+
 }

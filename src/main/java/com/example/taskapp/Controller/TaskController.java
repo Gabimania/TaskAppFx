@@ -1,4 +1,5 @@
 package com.example.taskapp.Controller;
+import com.example.taskapp.Models.Rol;
 import com.example.taskapp.Models.Task;
 import com.example.taskapp.Models.User;
 
@@ -59,4 +60,20 @@ public class TaskController {
     public boolean isAdmin() {
         return userLogged.getRol().getIdrol()==2?true:false;
     }
+
+    public List<User> getAllUser() {
+        User user = new User();
+        return user.getAll();
+    }
+
+    public List<Rol> getAllRol() {
+        Rol rol = new Rol();
+        return rol.getAll();
+    }
+
+    public boolean updateUser(User user) {
+     return user.actualizar("password = ?, idRol = ? where idUser = ?  ", user.getPassword(), user.getRol().getIdrol(), user.getIduser());
+    }
+
+
 }

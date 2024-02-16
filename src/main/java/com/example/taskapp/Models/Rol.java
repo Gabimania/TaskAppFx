@@ -1,5 +1,12 @@
 package com.example.taskapp.Models;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rol extends ModeloBase {
     private int idrol;
     private String description;
@@ -37,4 +44,24 @@ public class Rol extends ModeloBase {
                 ", description='" + description + '\'' +
                 '}';
     }
-}
+
+    public List<Rol> getAll() {
+        List<Rol> rolList = new ArrayList<>();
+        Rol rol = new Rol();
+        Connection con = rol.getConnection();
+        String consulta = "select idRol, desciption from rol";
+        try {
+            Statement stm = con.createStatement();
+            ResultSet resultSet = stm.executeQuery(consulta);
+            while(resultSet.next()){
+                Rol rol1 = new Rol();
+                rol1.setIdrol(resultSet.getInt("idRol"));
+                rol1.setDescription(resultSet.getString("desciption"));
+                rolList.add(rol1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rolList;
+    }
+    }
